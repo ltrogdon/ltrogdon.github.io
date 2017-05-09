@@ -1,0 +1,2737 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css" />
+        <link rel="stylesheet" type="text/css" href="css/qgis2web.css">
+        <link rel="stylesheet" href="css/MarkerCluster.css" />
+        <link rel="stylesheet" href="css/MarkerCluster.Default.css" />
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet-heat.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/OSMBuildings-Leaflet.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/leaflet-tilelayer-wmts.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/leaflet.markercluster.js"></script>
+        <script src="data/BiHmunicipalities0.js"></script>
+        <script src="data/BiHmunicipalitiescopycopycopy1.js"></script>
+        <script src="data/BiHmunicipalitiescopycopy2.js"></script>
+        <script src="data/BiHmunicipalitiescopy3.js"></script>
+        <script src="data/Incidenti1Masovnoubistvo4.js"></script>
+        <script src="data/Incidenti1ivitit5.js"></script>
+        <script src="data/Incidenti1Ubistvopogibija6.js"></script>
+        <script src="data/Incidenti1Snajper7.js"></script>
+        <script src="data/Incidenti1Silovanje8.js"></script>
+        <script src="data/Incidenti1Grupnoubistvo9.js"></script>
+        <script>
+        L.ImageOverlay.include({
+            getBounds: function () {
+                return this._bounds;
+            }
+        });
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[42.3348736326,15.6314191675],[45.4963493674,19.7190327325]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
+        var bounds_group = new L.featureGroup([]);
+        var basemap0 = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+            maxZoom: 28
+        });
+        basemap0.addTo(map);
+        function setBounds() {
+        }
+        function geoJson2heat(geojson, weight) {
+          return geojson.features.map(function(feature) {
+            return [
+              feature.geometry.coordinates[1],
+              feature.geometry.coordinates[0],
+              feature.properties[weight]
+            ];
+          });
+        }
+        function pop_BiHmunicipalities0(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NAME'] !== null ? Autolinker.link(String(feature.properties['NAME'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_LEVE'] !== null ? Autolinker.link(String(feature.properties['ADMIN_LEVE'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BOUNDARY'] !== null ? Autolinker.link(String(feature.properties['BOUNDARY'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['MUNID'] !== null ? Autolinker.link(String(feature.properties['MUNID'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['2013POP'] !== null ? Autolinker.link(String(feature.properties['2013POP'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BOSNIAKS'] !== null ? Autolinker.link(String(feature.properties['BOSNIAKS'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['CROATS'] !== null ? Autolinker.link(String(feature.properties['CROATS'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SERBS'] !== null ? Autolinker.link(String(feature.properties['SERBS'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NOTDECLAR'] !== null ? Autolinker.link(String(feature.properties['NOTDECLAR'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OTHER'] !== null ? Autolinker.link(String(feature.properties['OTHER'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NOANSWER'] !== null ? Autolinker.link(String(feature.properties['NOANSWER'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BOSINT'] !== null ? Autolinker.link(String(feature.properties['BOSINT'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['CROATINT'] !== null ? Autolinker.link(String(feature.properties['CROATINT'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SERBINT'] !== null ? Autolinker.link(String(feature.properties['SERBINT'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BOSPER'] !== null ? Autolinker.link(String(feature.properties['BOSPER'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['CROATPER'] !== null ? Autolinker.link(String(feature.properties['CROATPER'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SERBPER'] !== null ? Autolinker.link(String(feature.properties['SERBPER'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function style_BiHmunicipalities0() {
+            return {
+                pane: 'pane_BiHmunicipalities0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,255,1.0)',
+            }
+        }
+        map.createPane('pane_BiHmunicipalities0');
+        map.getPane('pane_BiHmunicipalities0').style.zIndex = 400;
+        map.getPane('pane_BiHmunicipalities0').style['mix-blend-mode'] = 'normal';
+    var layer_BiHmunicipalities0 = new L.geoJson(json_BiHmunicipalities0, {
+        attribution: '<a href=""></a>',
+        pane: 'pane_BiHmunicipalities0',
+        onEachFeature: pop_BiHmunicipalities0,
+        style: style_BiHmunicipalities0
+    });
+        bounds_group.addLayer(layer_BiHmunicipalities0);
+        map.addLayer(layer_BiHmunicipalities0);
+        function pop_BiHmunicipalitiescopycopycopy1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NAME'] !== null ? Autolinker.link(String(feature.properties['NAME'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_LEVE'] !== null ? Autolinker.link(String(feature.properties['ADMIN_LEVE'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BOUNDARY'] !== null ? Autolinker.link(String(feature.properties['BOUNDARY'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['MUNID'] !== null ? Autolinker.link(String(feature.properties['MUNID'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['2013POP'] !== null ? Autolinker.link(String(feature.properties['2013POP'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BOSNIAKS'] !== null ? Autolinker.link(String(feature.properties['BOSNIAKS'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['CROATS'] !== null ? Autolinker.link(String(feature.properties['CROATS'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SERBS'] !== null ? Autolinker.link(String(feature.properties['SERBS'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NOTDECLAR'] !== null ? Autolinker.link(String(feature.properties['NOTDECLAR'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OTHER'] !== null ? Autolinker.link(String(feature.properties['OTHER'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NOANSWER'] !== null ? Autolinker.link(String(feature.properties['NOANSWER'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BOSINT'] !== null ? Autolinker.link(String(feature.properties['BOSINT'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['CROATINT'] !== null ? Autolinker.link(String(feature.properties['CROATINT'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SERBINT'] !== null ? Autolinker.link(String(feature.properties['SERBINT'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BOSPER'] !== null ? Autolinker.link(String(feature.properties['BOSPER'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['CROATPER'] !== null ? Autolinker.link(String(feature.properties['CROATPER'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SERBPER'] !== null ? Autolinker.link(String(feature.properties['SERBPER'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function style_BiHmunicipalitiescopycopycopy1(feature) {
+            switch(feature.properties['SERBPER']) {
+                case '0':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(246,239,247,1.0)',
+            }
+                    break;
+                case '1':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(241,236,246,1.0)',
+            }
+                    break;
+                case '2':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(236,233,244,1.0)',
+            }
+                    break;
+                case '3':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(231,229,242,1.0)',
+            }
+                    break;
+                case '4':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(226,226,240,1.0)',
+            }
+                    break;
+                case '5':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(221,222,238,1.0)',
+            }
+                    break;
+                case '6':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(216,219,236,1.0)',
+            }
+                    break;
+                case '7':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(211,216,234,1.0)',
+            }
+                    break;
+                case '17':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(206,212,232,1.0)',
+            }
+                    break;
+                case '32':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(201,209,230,1.0)',
+            }
+                    break;
+                case '35':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(196,206,228,1.0)',
+            }
+                    break;
+                case '43':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(191,202,226,1.0)',
+            }
+                    break;
+                case '45':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(183,199,224,1.0)',
+            }
+                    break;
+                case '51':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(253,191,111,1.0)',
+            }
+                    break;
+                case '52':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(253,191,111,1.0)',
+            }
+                    break;
+                case '55':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(253,191,111,1.0)',
+            }
+                    break;
+                case '57':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(253,191,111,1.0)',
+            }
+                    break;
+                case '61':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(253,191,111,1.0)',
+            }
+                    break;
+                case '63':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(253,191,111,1.0)',
+            }
+                    break;
+                case '64':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(253,191,111,1.0)',
+            }
+                    break;
+                case '65':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(253,191,111,1.0)',
+            }
+                    break;
+                case '66':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(253,191,111,1.0)',
+            }
+                    break;
+                case '69':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(253,191,111,1.0)',
+            }
+                    break;
+                case '72':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(253,191,111,1.0)',
+            }
+                    break;
+                case '74':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(253,191,111,1.0)',
+            }
+                    break;
+                case '75':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(255,127,0,1.0)',
+            }
+                    break;
+                case '77':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(255,127,0,1.0)',
+            }
+                    break;
+                case '79':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(255,127,0,1.0)',
+            }
+                    break;
+                case '81':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(255,127,0,1.0)',
+            }
+                    break;
+                case '82':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(255,127,0,1.0)',
+            }
+                    break;
+                case '83':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(255,127,0,1.0)',
+            }
+                    break;
+                case '85':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(255,127,0,1.0)',
+            }
+                    break;
+                case '87':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(255,127,0,1.0)',
+            }
+                    break;
+                case '88':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(255,127,0,1.0)',
+            }
+                    break;
+                case '89':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(255,127,0,1.0)',
+            }
+                    break;
+                case '90':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(184,7,4,1.0)',
+            }
+                    break;
+                case '91':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(184,7,4,1.0)',
+            }
+                    break;
+                case '92':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(184,7,4,1.0)',
+            }
+                    break;
+                case '93':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(184,7,4,1.0)',
+            }
+                    break;
+                case '94':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(184,7,4,1.0)',
+            }
+                    break;
+                case '95':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(184,7,4,1.0)',
+            }
+                    break;
+                case '96':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(184,7,4,1.0)',
+            }
+                    break;
+                case '98':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(184,7,4,1.0)',
+            }
+                    break;
+                case '99':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(184,7,4,1.0)',
+            }
+                    break;
+                case '100':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(184,7,4,1.0)',
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(0,1,0,1.0)',
+            }
+                    break;
+                case '0':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopycopy1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(253,191,111,1.0)',
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_BiHmunicipalitiescopycopycopy1');
+        map.getPane('pane_BiHmunicipalitiescopycopycopy1').style.zIndex = 401;
+        map.getPane('pane_BiHmunicipalitiescopycopycopy1').style['mix-blend-mode'] = 'normal';
+    var layer_BiHmunicipalitiescopycopycopy1 = new L.geoJson(json_BiHmunicipalitiescopycopycopy1, {
+        attribution: '<a href=""></a>',
+        pane: 'pane_BiHmunicipalitiescopycopycopy1',
+        onEachFeature: pop_BiHmunicipalitiescopycopycopy1,
+        style: style_BiHmunicipalitiescopycopycopy1
+    });
+        bounds_group.addLayer(layer_BiHmunicipalitiescopycopycopy1);
+        map.addLayer(layer_BiHmunicipalitiescopycopycopy1);
+        function pop_BiHmunicipalitiescopycopy2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NAME'] !== null ? Autolinker.link(String(feature.properties['NAME'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_LEVE'] !== null ? Autolinker.link(String(feature.properties['ADMIN_LEVE'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BOUNDARY'] !== null ? Autolinker.link(String(feature.properties['BOUNDARY'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['MUNID'] !== null ? Autolinker.link(String(feature.properties['MUNID'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['2013POP'] !== null ? Autolinker.link(String(feature.properties['2013POP'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BOSNIAKS'] !== null ? Autolinker.link(String(feature.properties['BOSNIAKS'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['CROATS'] !== null ? Autolinker.link(String(feature.properties['CROATS'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SERBS'] !== null ? Autolinker.link(String(feature.properties['SERBS'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NOTDECLAR'] !== null ? Autolinker.link(String(feature.properties['NOTDECLAR'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OTHER'] !== null ? Autolinker.link(String(feature.properties['OTHER'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NOANSWER'] !== null ? Autolinker.link(String(feature.properties['NOANSWER'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BOSINT'] !== null ? Autolinker.link(String(feature.properties['BOSINT'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['CROATINT'] !== null ? Autolinker.link(String(feature.properties['CROATINT'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SERBINT'] !== null ? Autolinker.link(String(feature.properties['SERBINT'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BOSPER'] !== null ? Autolinker.link(String(feature.properties['BOSPER'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['CROATPER'] !== null ? Autolinker.link(String(feature.properties['CROATPER'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SERBPER'] !== null ? Autolinker.link(String(feature.properties['SERBPER'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function style_BiHmunicipalitiescopycopy2(feature) {
+            switch(feature.properties['CROATPER']) {
+                case '0':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(254,240,217,1.0)',
+            }
+                    break;
+                case '1':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(254,237,210,1.0)',
+            }
+                    break;
+                case '2':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(254,233,202,1.0)',
+            }
+                    break;
+                case '3':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(254,230,194,1.0)',
+            }
+                    break;
+                case '4':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(254,226,186,1.0)',
+            }
+                    break;
+                case '5':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(254,223,179,1.0)',
+            }
+                    break;
+                case '6':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(254,219,171,1.0)',
+            }
+                    break;
+                case '7':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(254,216,163,1.0)',
+            }
+                    break;
+                case '8':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(254,212,155,1.0)',
+            }
+                    break;
+                case '9':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(254,209,148,1.0)',
+            }
+                    break;
+                case '14':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(254,205,140,1.0)',
+            }
+                    break;
+                case '16':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(253,200,134,1.0)',
+            }
+                    break;
+                case '17':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(253,194,130,1.0)',
+            }
+                    break;
+                case '18':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(253,187,125,1.0)',
+            }
+                    break;
+                case '20':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(253,181,120,1.0)',
+            }
+                    break;
+                case '21':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(253,175,115,1.0)',
+            }
+                    break;
+                case '23':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(253,169,110,1.0)',
+            }
+                    break;
+                case '27':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(253,163,106,1.0)',
+            }
+                    break;
+                case '28':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(253,156,101,1.0)',
+            }
+                    break;
+                case '30':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(253,150,96,1.0)',
+            }
+                    break;
+                case '32':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(253,144,91,1.0)',
+            }
+                    break;
+                case '35':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(251,138,87,1.0)',
+            }
+                    break;
+                case '41':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(249,131,83,1.0)',
+            }
+                    break;
+                case '46':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(246,125,80,1.0)',
+            }
+                    break;
+                case '48':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(244,118,76,1.0)',
+            }
+                    break;
+                case '50':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(166,206,227,1.0)',
+            }
+                    break;
+                case '56':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(166,206,227,1.0)',
+            }
+                    break;
+                case '57':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(166,206,227,1.0)',
+            }
+                    break;
+                case '59':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(166,206,227,1.0)',
+            }
+                    break;
+                case '62':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(166,206,227,1.0)',
+            }
+                    break;
+                case '75':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(93,166,200,1.0)',
+            }
+                    break;
+                case '79':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(93,166,200,1.0)',
+            }
+                    break;
+                case '82':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(93,166,200,1.0)',
+            }
+                    break;
+                case '86':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.996078)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(93,166,200,0.996078)',
+            }
+                    break;
+                case '87':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(93,166,200,1.0)',
+            }
+                    break;
+                case '88':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(93,166,200,1.0)',
+            }
+                    break;
+                case '92':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(31,120,180,1.0)',
+            }
+                    break;
+                case '97':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(31,120,180,1.0)',
+            }
+                    break;
+                case '98':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(31,120,180,1.0)',
+            }
+                    break;
+                case '99':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(31,120,180,1.0)',
+            }
+                    break;
+                case '100':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(31,120,180,1.0)',
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_BiHmunicipalitiescopycopy2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(179,0,0,1.0)',
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_BiHmunicipalitiescopycopy2');
+        map.getPane('pane_BiHmunicipalitiescopycopy2').style.zIndex = 402;
+        map.getPane('pane_BiHmunicipalitiescopycopy2').style['mix-blend-mode'] = 'normal';
+    var layer_BiHmunicipalitiescopycopy2 = new L.geoJson(json_BiHmunicipalitiescopycopy2, {
+        attribution: '<a href=""></a>',
+        pane: 'pane_BiHmunicipalitiescopycopy2',
+        onEachFeature: pop_BiHmunicipalitiescopycopy2,
+        style: style_BiHmunicipalitiescopycopy2
+    });
+        bounds_group.addLayer(layer_BiHmunicipalitiescopycopy2);
+        map.addLayer(layer_BiHmunicipalitiescopycopy2);
+        function pop_BiHmunicipalitiescopy3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NAME'] !== null ? Autolinker.link(String(feature.properties['NAME'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_LEVE'] !== null ? Autolinker.link(String(feature.properties['ADMIN_LEVE'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BOUNDARY'] !== null ? Autolinker.link(String(feature.properties['BOUNDARY'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['MUNID'] !== null ? Autolinker.link(String(feature.properties['MUNID'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['2013POP'] !== null ? Autolinker.link(String(feature.properties['2013POP'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BOSNIAKS'] !== null ? Autolinker.link(String(feature.properties['BOSNIAKS'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['CROATS'] !== null ? Autolinker.link(String(feature.properties['CROATS'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SERBS'] !== null ? Autolinker.link(String(feature.properties['SERBS'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NOTDECLAR'] !== null ? Autolinker.link(String(feature.properties['NOTDECLAR'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OTHER'] !== null ? Autolinker.link(String(feature.properties['OTHER'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NOANSWER'] !== null ? Autolinker.link(String(feature.properties['NOANSWER'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BOSINT'] !== null ? Autolinker.link(String(feature.properties['BOSINT'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['CROATINT'] !== null ? Autolinker.link(String(feature.properties['CROATINT'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SERBINT'] !== null ? Autolinker.link(String(feature.properties['SERBINT'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BOSPER'] !== null ? Autolinker.link(String(feature.properties['BOSPER'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['CROATPER'] !== null ? Autolinker.link(String(feature.properties['CROATPER'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SERBPER'] !== null ? Autolinker.link(String(feature.properties['SERBPER'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function style_BiHmunicipalitiescopy3(feature) {
+            switch(feature.properties['BOSPER']) {
+                case '0':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(240,249,232,1.0)',
+            }
+                    break;
+                case '1':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(237,248,229,1.0)',
+            }
+                    break;
+                case '2':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(233,247,226,1.0)',
+            }
+                    break;
+                case '3':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(229,245,223,1.0)',
+            }
+                    break;
+                case '4':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(225,244,220,1.0)',
+            }
+                    break;
+                case '5':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(222,242,217,1.0)',
+            }
+                    break;
+                case '6':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(218,241,214,1.0)',
+            }
+                    break;
+                case '7':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(214,239,211,1.0)',
+            }
+                    break;
+                case '8':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(211,238,208,1.0)',
+            }
+                    break;
+                case '9':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(207,236,205,1.0)',
+            }
+                    break;
+                case '10':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(203,235,202,1.0)',
+            }
+                    break;
+                case '12':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(199,233,199,1.0)',
+            }
+                    break;
+                case '14':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(196,232,196,1.0)',
+            }
+                    break;
+                case '15':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(192,231,193,1.0)',
+            }
+                    break;
+                case '17':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(188,229,190,1.0)',
+            }
+                    break;
+                case '18':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(184,228,189,1.0)',
+            }
+                    break;
+                case '19':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(180,226,189,1.0)',
+            }
+                    break;
+                case '21':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(175,224,190,1.0)',
+            }
+                    break;
+                case '24':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(171,223,190,1.0)',
+            }
+                    break;
+                case '25':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(167,221,191,1.0)',
+            }
+                    break;
+                case '27':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(162,219,191,1.0)',
+            }
+                    break;
+                case '30':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(158,218,192,1.0)',
+            }
+                    break;
+                case '32':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(154,216,192,1.0)',
+            }
+                    break;
+                case '33':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(149,214,193,1.0)',
+            }
+                    break;
+                case '34':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(145,213,193,1.0)',
+            }
+                    break;
+                case '37':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(140,211,194,1.0)',
+            }
+                    break;
+                case '38':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(136,209,195,1.0)',
+            }
+                    break;
+                case '39':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(132,208,195,1.0)',
+            }
+                    break;
+                case '41':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(127,206,196,1.0)',
+            }
+                    break;
+                case '43':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(123,204,196,1.0)',
+            }
+                    break;
+                case '44':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(119,201,197,1.0)',
+            }
+                    break;
+                case '47':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(115,198,197,1.0)',
+            }
+                    break;
+                case '48':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(111,196,198,1.0)',
+            }
+                    break;
+                case '49':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(107,193,198,1.0)',
+            }
+                    break;
+                case '51':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(218,241,214,1.0)',
+            }
+                    break;
+                case '54':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(218,241,214,1.0)',
+            }
+                    break;
+                case '57':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(218,241,214,1.0)',
+            }
+                    break;
+                case '61':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(218,241,214,1.0)',
+            }
+                    break;
+                case '67':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(218,241,214,1.0)',
+            }
+                    break;
+                case '73':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(218,241,214,1.0)',
+            }
+                    break;
+                case '74':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(218,241,214,1.0)',
+            }
+                    break;
+                case '76':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(51,160,44,1.0)',
+            }
+                    break;
+                case '78':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(51,160,44,1.0)',
+            }
+                    break;
+                case '81':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(51,160,44,1.0)',
+            }
+                    break;
+                case '84':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(51,160,44,1.0)',
+            }
+                    break;
+                case '86':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(51,160,44,1.0)',
+            }
+                    break;
+                case '87':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(51,160,44,1.0)',
+            }
+                    break;
+                case '88':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(51,160,44,1.0)',
+            }
+                    break;
+                case '89':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(51,160,44,1.0)',
+            }
+                    break;
+                case '91':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(21,114,37,1.0)',
+            }
+                    break;
+                case '92':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(21,114,37,1.0)',
+            }
+                    break;
+                case '93':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(21,114,37,1.0)',
+            }
+                    break;
+                case '94':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(21,114,37,1.0)',
+            }
+                    break;
+                case '95':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(21,114,37,1.0)',
+            }
+                    break;
+                case '96':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(21,114,37,1.0)',
+            }
+                    break;
+                case '97':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(21,114,37,1.0)',
+            }
+                    break;
+                case '99':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(21,114,37,1.0)',
+            }
+                    break;
+                case '100':
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(21,114,37,1.0)',
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_BiHmunicipalitiescopy3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(8,104,172,1.0)',
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_BiHmunicipalitiescopy3');
+        map.getPane('pane_BiHmunicipalitiescopy3').style.zIndex = 403;
+        map.getPane('pane_BiHmunicipalitiescopy3').style['mix-blend-mode'] = 'normal';
+    var layer_BiHmunicipalitiescopy3 = new L.geoJson(json_BiHmunicipalitiescopy3, {
+        attribution: '<a href=""></a>',
+        pane: 'pane_BiHmunicipalitiescopy3',
+        onEachFeature: pop_BiHmunicipalitiescopy3,
+        style: style_BiHmunicipalitiescopy3
+    });
+        bounds_group.addLayer(layer_BiHmunicipalitiescopy3);
+        map.addLayer(layer_BiHmunicipalitiescopy3);
+        function pop_Incidenti1Masovnoubistvo4(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Name'] !== null ? Autolinker.link(String(feature.properties['Name'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['description'] !== null ? Autolinker.link(String(feature.properties['description'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['timestamp'] !== null ? Autolinker.link(String(feature.properties['timestamp'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['begin'] !== null ? Autolinker.link(String(feature.properties['begin'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['end'] !== null ? Autolinker.link(String(feature.properties['end'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['altitudeMode'] !== null ? Autolinker.link(String(feature.properties['altitudeMode'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['tessellate'] !== null ? Autolinker.link(String(feature.properties['tessellate'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['extrude'] !== null ? Autolinker.link(String(feature.properties['extrude'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['visibility'] !== null ? Autolinker.link(String(feature.properties['visibility'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['drawOrder'] !== null ? Autolinker.link(String(feature.properties['drawOrder'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['icon'] !== null ? Autolinker.link(String(feature.properties['icon'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['snippet'] !== null ? Autolinker.link(String(feature.properties['snippet'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function style_Incidenti1Masovnoubistvo4() {
+            return {
+                pane: 'pane_Incidenti1Masovnoubistvo4',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fillOpacity: 1,
+                fillColor: 'rgba(78,0,211,1.0)',
+            }
+        }
+        map.createPane('pane_Incidenti1Masovnoubistvo4');
+        map.getPane('pane_Incidenti1Masovnoubistvo4').style.zIndex = 404;
+        map.getPane('pane_Incidenti1Masovnoubistvo4').style['mix-blend-mode'] = 'normal';
+        var layer_Incidenti1Masovnoubistvo4 = new L.geoJson(json_Incidenti1Masovnoubistvo4, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_Incidenti1Masovnoubistvo4',
+            onEachFeature: pop_Incidenti1Masovnoubistvo4,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_Incidenti1Masovnoubistvo4(feature))
+            }
+        });
+        bounds_group.addLayer(layer_Incidenti1Masovnoubistvo4);
+        map.addLayer(layer_Incidenti1Masovnoubistvo4);
+        function pop_Incidenti1ivitit5(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Name'] !== null ? Autolinker.link(String(feature.properties['Name'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['description'] !== null ? Autolinker.link(String(feature.properties['description'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['timestamp'] !== null ? Autolinker.link(String(feature.properties['timestamp'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['begin'] !== null ? Autolinker.link(String(feature.properties['begin'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['end'] !== null ? Autolinker.link(String(feature.properties['end'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['altitudeMode'] !== null ? Autolinker.link(String(feature.properties['altitudeMode'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['tessellate'] !== null ? Autolinker.link(String(feature.properties['tessellate'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['extrude'] !== null ? Autolinker.link(String(feature.properties['extrude'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['visibility'] !== null ? Autolinker.link(String(feature.properties['visibility'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['drawOrder'] !== null ? Autolinker.link(String(feature.properties['drawOrder'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['icon'] !== null ? Autolinker.link(String(feature.properties['icon'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['snippet'] !== null ? Autolinker.link(String(feature.properties['snippet'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function style_Incidenti1ivitit5() {
+            return {
+                pane: 'pane_Incidenti1ivitit5',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fillOpacity: 1,
+                fillColor: 'rgba(49,54,156,1.0)',
+            }
+        }
+        map.createPane('pane_Incidenti1ivitit5');
+        map.getPane('pane_Incidenti1ivitit5').style.zIndex = 405;
+        map.getPane('pane_Incidenti1ivitit5').style['mix-blend-mode'] = 'normal';
+        var layer_Incidenti1ivitit5 = new L.geoJson(json_Incidenti1ivitit5, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_Incidenti1ivitit5',
+            onEachFeature: pop_Incidenti1ivitit5,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_Incidenti1ivitit5(feature))
+            }
+        });
+        bounds_group.addLayer(layer_Incidenti1ivitit5);
+        map.addLayer(layer_Incidenti1ivitit5);
+        function pop_Incidenti1Ubistvopogibija6(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Name'] !== null ? Autolinker.link(String(feature.properties['Name'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['description'] !== null ? Autolinker.link(String(feature.properties['description'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['timestamp'] !== null ? Autolinker.link(String(feature.properties['timestamp'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['begin'] !== null ? Autolinker.link(String(feature.properties['begin'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['end'] !== null ? Autolinker.link(String(feature.properties['end'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['altitudeMode'] !== null ? Autolinker.link(String(feature.properties['altitudeMode'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['tessellate'] !== null ? Autolinker.link(String(feature.properties['tessellate'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['extrude'] !== null ? Autolinker.link(String(feature.properties['extrude'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['visibility'] !== null ? Autolinker.link(String(feature.properties['visibility'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['drawOrder'] !== null ? Autolinker.link(String(feature.properties['drawOrder'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['icon'] !== null ? Autolinker.link(String(feature.properties['icon'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['snippet'] !== null ? Autolinker.link(String(feature.properties['snippet'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function style_Incidenti1Ubistvopogibija6() {
+            return {
+                pane: 'pane_Incidenti1Ubistvopogibija6',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fillOpacity: 1,
+                fillColor: 'rgba(191,249,154,1.0)',
+            }
+        }
+        map.createPane('pane_Incidenti1Ubistvopogibija6');
+        map.getPane('pane_Incidenti1Ubistvopogibija6').style.zIndex = 406;
+        map.getPane('pane_Incidenti1Ubistvopogibija6').style['mix-blend-mode'] = 'normal';
+        var layer_Incidenti1Ubistvopogibija6 = new L.geoJson(json_Incidenti1Ubistvopogibija6, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_Incidenti1Ubistvopogibija6',
+            onEachFeature: pop_Incidenti1Ubistvopogibija6,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_Incidenti1Ubistvopogibija6(feature))
+            }
+        });
+        bounds_group.addLayer(layer_Incidenti1Ubistvopogibija6);
+        map.addLayer(layer_Incidenti1Ubistvopogibija6);
+        function pop_Incidenti1Snajper7(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Name'] !== null ? Autolinker.link(String(feature.properties['Name'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['description'] !== null ? Autolinker.link(String(feature.properties['description'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['timestamp'] !== null ? Autolinker.link(String(feature.properties['timestamp'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['begin'] !== null ? Autolinker.link(String(feature.properties['begin'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['end'] !== null ? Autolinker.link(String(feature.properties['end'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['altitudeMode'] !== null ? Autolinker.link(String(feature.properties['altitudeMode'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['tessellate'] !== null ? Autolinker.link(String(feature.properties['tessellate'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['extrude'] !== null ? Autolinker.link(String(feature.properties['extrude'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['visibility'] !== null ? Autolinker.link(String(feature.properties['visibility'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['drawOrder'] !== null ? Autolinker.link(String(feature.properties['drawOrder'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['icon'] !== null ? Autolinker.link(String(feature.properties['icon'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['snippet'] !== null ? Autolinker.link(String(feature.properties['snippet'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function style_Incidenti1Snajper7() {
+            return {
+                pane: 'pane_Incidenti1Snajper7',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fillOpacity: 1,
+                fillColor: 'rgba(97,64,215,1.0)',
+            }
+        }
+        map.createPane('pane_Incidenti1Snajper7');
+        map.getPane('pane_Incidenti1Snajper7').style.zIndex = 407;
+        map.getPane('pane_Incidenti1Snajper7').style['mix-blend-mode'] = 'normal';
+        var layer_Incidenti1Snajper7 = new L.geoJson(json_Incidenti1Snajper7, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_Incidenti1Snajper7',
+            onEachFeature: pop_Incidenti1Snajper7,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_Incidenti1Snajper7(feature))
+            }
+        });
+        bounds_group.addLayer(layer_Incidenti1Snajper7);
+        map.addLayer(layer_Incidenti1Snajper7);
+        function pop_Incidenti1Silovanje8(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Name'] !== null ? Autolinker.link(String(feature.properties['Name'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['description'] !== null ? Autolinker.link(String(feature.properties['description'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['timestamp'] !== null ? Autolinker.link(String(feature.properties['timestamp'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['begin'] !== null ? Autolinker.link(String(feature.properties['begin'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['end'] !== null ? Autolinker.link(String(feature.properties['end'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['altitudeMode'] !== null ? Autolinker.link(String(feature.properties['altitudeMode'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['tessellate'] !== null ? Autolinker.link(String(feature.properties['tessellate'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['extrude'] !== null ? Autolinker.link(String(feature.properties['extrude'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['visibility'] !== null ? Autolinker.link(String(feature.properties['visibility'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['drawOrder'] !== null ? Autolinker.link(String(feature.properties['drawOrder'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['icon'] !== null ? Autolinker.link(String(feature.properties['icon'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['snippet'] !== null ? Autolinker.link(String(feature.properties['snippet'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function style_Incidenti1Silovanje8() {
+            return {
+                pane: 'pane_Incidenti1Silovanje8',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fillOpacity: 1,
+                fillColor: 'rgba(190,162,5,1.0)',
+            }
+        }
+        map.createPane('pane_Incidenti1Silovanje8');
+        map.getPane('pane_Incidenti1Silovanje8').style.zIndex = 408;
+        map.getPane('pane_Incidenti1Silovanje8').style['mix-blend-mode'] = 'normal';
+        var layer_Incidenti1Silovanje8 = new L.geoJson(json_Incidenti1Silovanje8, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_Incidenti1Silovanje8',
+            onEachFeature: pop_Incidenti1Silovanje8,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_Incidenti1Silovanje8(feature))
+            }
+        });
+        bounds_group.addLayer(layer_Incidenti1Silovanje8);
+        map.addLayer(layer_Incidenti1Silovanje8);
+        function pop_Incidenti1Grupnoubistvo9(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Name'] !== null ? Autolinker.link(String(feature.properties['Name'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['description'] !== null ? Autolinker.link(String(feature.properties['description'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['timestamp'] !== null ? Autolinker.link(String(feature.properties['timestamp'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['begin'] !== null ? Autolinker.link(String(feature.properties['begin'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['end'] !== null ? Autolinker.link(String(feature.properties['end'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['altitudeMode'] !== null ? Autolinker.link(String(feature.properties['altitudeMode'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['tessellate'] !== null ? Autolinker.link(String(feature.properties['tessellate'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['extrude'] !== null ? Autolinker.link(String(feature.properties['extrude'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['visibility'] !== null ? Autolinker.link(String(feature.properties['visibility'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['drawOrder'] !== null ? Autolinker.link(String(feature.properties['drawOrder'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['icon'] !== null ? Autolinker.link(String(feature.properties['icon'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['snippet'] !== null ? Autolinker.link(String(feature.properties['snippet'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function style_Incidenti1Grupnoubistvo9() {
+            return {
+                pane: 'pane_Incidenti1Grupnoubistvo9',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fillOpacity: 1,
+                fillColor: 'rgba(8,64,175,1.0)',
+            }
+        }
+        map.createPane('pane_Incidenti1Grupnoubistvo9');
+        map.getPane('pane_Incidenti1Grupnoubistvo9').style.zIndex = 409;
+        map.getPane('pane_Incidenti1Grupnoubistvo9').style['mix-blend-mode'] = 'normal';
+        var layer_Incidenti1Grupnoubistvo9 = new L.geoJson(json_Incidenti1Grupnoubistvo9, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_Incidenti1Grupnoubistvo9',
+            onEachFeature: pop_Incidenti1Grupnoubistvo9,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_Incidenti1Grupnoubistvo9(feature))
+            }
+        });
+        bounds_group.addLayer(layer_Incidenti1Grupnoubistvo9);
+        map.addLayer(layer_Incidenti1Grupnoubistvo9);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/Incidenti1Grupnoubistvo9.png" /> Incidenti (1) Grupno ubistvo': layer_Incidenti1Grupnoubistvo9,'<img src="legend/Incidenti1Silovanje8.png" /> Incidenti (1) Silovanje': layer_Incidenti1Silovanje8,'<img src="legend/Incidenti1Snajper7.png" /> Incidenti (1) Snajper': layer_Incidenti1Snajper7,'<img src="legend/Incidenti1Ubistvopogibija6.png" /> Incidenti (1) Ubistvo\pogibija': layer_Incidenti1Ubistvopogibija6,'<img src="legend/Incidenti1ivitit5.png" /> Incidenti (1) Živi štit': layer_Incidenti1ivitit5,'<img src="legend/Incidenti1Masovnoubistvo4.png" /> Incidenti (1) Masovno ubistvo': layer_Incidenti1Masovnoubistvo4,'BiH_municipalities copy<br /><table><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_00.png" /></td><td>0</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_11.png" /></td><td>1</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_22.png" /></td><td>2</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_33.png" /></td><td>3</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_44.png" /></td><td>4</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_55.png" /></td><td>5</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_66.png" /></td><td>6</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_77.png" /></td><td>7</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_88.png" /></td><td>8</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_99.png" /></td><td>9</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_1010.png" /></td><td>10</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_1211.png" /></td><td>12</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_1412.png" /></td><td>14</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_1513.png" /></td><td>15</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_1714.png" /></td><td>17</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_1815.png" /></td><td>18</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_1916.png" /></td><td>19</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_2117.png" /></td><td>21</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_2418.png" /></td><td>24</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_2519.png" /></td><td>25</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_2720.png" /></td><td>27</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_3021.png" /></td><td>30</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_3222.png" /></td><td>32</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_3323.png" /></td><td>33</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_3424.png" /></td><td>34</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_3725.png" /></td><td>37</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_3826.png" /></td><td>38</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_3927.png" /></td><td>39</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_4128.png" /></td><td>41</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_4329.png" /></td><td>43</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_4430.png" /></td><td>44</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_4731.png" /></td><td>47</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_4832.png" /></td><td>48</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_4933.png" /></td><td>49</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_5134.png" /></td><td>51</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_5435.png" /></td><td>54</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_5736.png" /></td><td>57</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_6137.png" /></td><td>61</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_6738.png" /></td><td>67</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_7339.png" /></td><td>73</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_7440.png" /></td><td>74</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_7641.png" /></td><td>76</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_7842.png" /></td><td>78</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_8143.png" /></td><td>81</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_8444.png" /></td><td>84</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_8645.png" /></td><td>86</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_8746.png" /></td><td>87</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_8847.png" /></td><td>88</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_8948.png" /></td><td>89</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_9149.png" /></td><td>91</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_9250.png" /></td><td>92</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_9351.png" /></td><td>93</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_9452.png" /></td><td>94</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_9553.png" /></td><td>95</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_9654.png" /></td><td>96</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_9755.png" /></td><td>97</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_9956.png" /></td><td>99</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_10057.png" /></td><td>100</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopy3_58.png" /></td><td></td></tr></table>': layer_BiHmunicipalitiescopy3,'BiH_municipalities copy copy<br /><table><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_00.png" /></td><td>0</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_11.png" /></td><td>1</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_22.png" /></td><td>2</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_33.png" /></td><td>3</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_44.png" /></td><td>4</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_55.png" /></td><td>5</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_66.png" /></td><td>6</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_77.png" /></td><td>7</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_88.png" /></td><td>8</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_99.png" /></td><td>9</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_1410.png" /></td><td>14</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_1611.png" /></td><td>16</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_1712.png" /></td><td>17</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_1813.png" /></td><td>18</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_2014.png" /></td><td>20</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_2115.png" /></td><td>21</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_2316.png" /></td><td>23</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_2717.png" /></td><td>27</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_2818.png" /></td><td>28</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_3019.png" /></td><td>30</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_3220.png" /></td><td>32</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_3521.png" /></td><td>35</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_4122.png" /></td><td>41</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_4623.png" /></td><td>46</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_4824.png" /></td><td>48</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_5025.png" /></td><td>50</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_5626.png" /></td><td>56</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_5727.png" /></td><td>57</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_5928.png" /></td><td>59</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_6229.png" /></td><td>62</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_7530.png" /></td><td>75</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_7931.png" /></td><td>79</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_8232.png" /></td><td>82</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_8633.png" /></td><td>86</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_8734.png" /></td><td>87</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_8835.png" /></td><td>88</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_9236.png" /></td><td>92</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_9737.png" /></td><td>97</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_9838.png" /></td><td>98</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_9939.png" /></td><td>99</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_10040.png" /></td><td>100</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopy2_41.png" /></td><td></td></tr></table>': layer_BiHmunicipalitiescopycopy2,'BiH_municipalities copy copy copy<br /><table><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_00.png" /></td><td>0</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_11.png" /></td><td>1</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_22.png" /></td><td>2</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_33.png" /></td><td>3</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_44.png" /></td><td>4</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_55.png" /></td><td>5</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_66.png" /></td><td>6</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_77.png" /></td><td>7</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_178.png" /></td><td>17</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_329.png" /></td><td>32</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_3510.png" /></td><td>35</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_4311.png" /></td><td>43</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_4512.png" /></td><td>45</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_5113.png" /></td><td>51</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_5214.png" /></td><td>52</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_5515.png" /></td><td>55</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_5716.png" /></td><td>57</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_6117.png" /></td><td>61</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_6318.png" /></td><td>63</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_6419.png" /></td><td>64</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_6520.png" /></td><td>65</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_6621.png" /></td><td>66</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_6922.png" /></td><td>69</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_7223.png" /></td><td>72</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_7424.png" /></td><td>74</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_7525.png" /></td><td>75</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_7726.png" /></td><td>77</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_7927.png" /></td><td>79</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_8128.png" /></td><td>81</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_8229.png" /></td><td>82</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_8330.png" /></td><td>83</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_8531.png" /></td><td>85</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_8732.png" /></td><td>87</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_8833.png" /></td><td>88</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_8934.png" /></td><td>89</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_9035.png" /></td><td>90</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_9136.png" /></td><td>91</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_9237.png" /></td><td>92</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_9338.png" /></td><td>93</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_9439.png" /></td><td>94</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_9540.png" /></td><td>95</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_9641.png" /></td><td>96</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_9842.png" /></td><td>98</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_9943.png" /></td><td>99</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_10044.png" /></td><td>100</td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_45.png" /></td><td></td></tr><tr><td style="text-align: center;"><img src="legend/BiHmunicipalitiescopycopycopy1_046.png" /></td><td>0</td></tr></table>': layer_BiHmunicipalitiescopycopycopy1,'<img src="legend/BiHmunicipalities0.png" /> BiH_municipalities': layer_BiHmunicipalities0,}).addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>
